@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/add_transaction_screen.dart';
 
 void main() {
   runApp(const SmartFinanceTracker());
@@ -118,7 +119,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.add_circle,
                   Colors.blue,
                   () {
-                    print('Add Transaction tapped');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddTransactionScreen(),
+                      ),
+                    ); // ✅ Actually navigates!
                   },
                 ),
                 _buildActionCard(
@@ -201,7 +207,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('FAB pressed - Add Transaction');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddTransactionScreen(),
+            ),
+          );
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add, color: Colors.white),
