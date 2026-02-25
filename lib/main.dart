@@ -1,6 +1,48 @@
 import 'package:flutter/material.dart';
 import 'screens/add_transaction_screen.dart';
 
+// ============ DATA STORAGE ============
+// Think of this as your MONEY NOTEBOOK 📒
+
+// List to store ALL transactions (like pages in notebook)
+List<Map<String, dynamic>> transactions = [
+  // Sample data (like example entries in notebook)
+  {
+    'description': 'Starbucks',
+    'amount': -25.80,
+    'category': 'Food',
+    'date': DateTime.now().subtract(const Duration(hours: 2)),
+    'id': 1,
+  },
+  {
+    'description': 'Petronas',
+    'amount': -50.00,
+    'category': 'Transport',
+    'date': DateTime.now().subtract(const Duration(days: 1)),
+    'id': 2,
+  },
+  {
+    'description': 'Salary',
+    'amount': 3500.00,
+    'category': 'Income',
+    'date': DateTime.now().subtract(const Duration(days: 5)),
+    'id': 3,
+  },
+  {
+    'description': 'Uniqlo',
+    'amount': -129.90,
+    'category': 'Shopping',
+    'date': DateTime.now().subtract(const Duration(days: 3)),
+    'id': 4,
+  },
+];
+
+// Function to add new transaction (like writing new page)
+void addTransaction(Map<String, dynamic> newTransaction) {
+  transactions.insert(0, newTransaction); // Add at beginning
+}
+// ============ END DATA STORAGE ============
+
 void main() {
   runApp(const SmartFinanceTracker());
 }
@@ -31,9 +73,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double totalBalance = 2543.50;
-  double monthlyIncome = 3500.00;
-  double monthlyExpenses = 956.50;
+  // These will now calculate from REAL data!
+  double get totalBalance {
+    return transactions.fold(0.0, (sum, t) => sum + t['amount']);
+  }
+
+  double get monthlyExpenses {
+    return transactions
+        .where((t) => t['amount'] < 0)
+        .fold(0.0, (sum, t) => sum + t['amount'])
+        .abs(); // Make positive
+  }
+
+  double get monthlyIncome {
+    return transactions
+        .where((t) => t['amount'] > 0)
+        .fold(0.0, (sum, t) => sum + t['amount']);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,161 +106,160 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Welcome Section
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'السلام عليكم',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+      // 🎯 FIX 1: ADD SINGLE CHILD SCROLL VIEW (LIKE YOUTUBE SCROLL!)
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Welcome Section
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'السلام عليكم',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Welcome to Your Finance Tracker',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildStatCard(
-                          'Total Balance',
-                          'RM ${totalBalance.toStringAsFixed(2)}',
-                          Icons.account_balance_wallet,
-                        ),
-                        _buildStatCard(
-                          'This Month',
-                          'RM ${monthlyExpenses.toStringAsFixed(2)}',
-                          Icons.trending_up,
-                        ),
-                      ],
-                    ),
-                  ],
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Welcome to Your Finance Tracker',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildStatCard(
+                            'Total Balance',
+                            'RM ${totalBalance.toStringAsFixed(2)}',
+                            Icons.account_balance_wallet,
+                          ),
+                          _buildStatCard(
+                            'This Month',
+                            'RM ${monthlyExpenses.toStringAsFixed(2)}',
+                            Icons.trending_up,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // Quick Actions Title
-            const Text(
-              'Quick Actions',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
+              // Quick Actions Title
+              const Text(
+                'Quick Actions',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
 
-            // Quick Actions Grid
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              childAspectRatio: 1.5,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              children: [
-                _buildActionCard(
-                  '➕ Add Transaction',
-                  Icons.add_circle,
-                  Colors.blue,
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AddTransactionScreen(),
-                      ),
-                    ); // ✅ Actually navigates!
-                  },
-                ),
-                _buildActionCard(
-                  '📊 View Reports',
-                  Icons.bar_chart,
-                  Colors.blue,
-                  () {
-                    print('View Reports tapped');
-                  },
-                ),
-                _buildActionCard(
-                  '🏦 Import CSV',
-                  Icons.upload_file,
-                  Colors.orange,
-                  () {
-                    print('Import CSV tapped');
-                  },
-                ),
-                _buildActionCard(
-                  '🏷️ Categories',
-                  Icons.category,
-                  Colors.purple,
-                  () {
-                    print('Categories tapped');
-                  },
-                ),
-                _buildActionCard(
-                  '📋 Budget',
-                  Icons.account_balance_wallet,
-                  Colors.deepPurple,
-                  () {
-                    print('Budget tapped');
-                  },
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            // Recent Transactions Title
-            const Text(
-              'Recent Transactions',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-
-            // Recent Transactions List
-            Expanded(
-              child: ListView(
+              // Quick Actions Grid
+              GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                childAspectRatio: 1.5,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
                 children: [
-                  _buildTransactionTile(
-                    'Food',
-                    'Starbucks',
-                    -25.80,
-                    DateTime.now().subtract(const Duration(hours: 2)),
+                  _buildActionCard(
+                    '➕ Add Transaction',
+                    Icons.add_circle,
+                    Colors.blue,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AddTransactionScreen(),
+                        ),
+                      );
+                    },
                   ),
-                  _buildTransactionTile(
-                    'Transport',
-                    'Petronas',
-                    -50.00,
-                    DateTime.now().subtract(const Duration(days: 1)),
+                  _buildActionCard(
+                    '📊 View Reports',
+                    Icons.bar_chart,
+                    Colors.blue,
+                    () {
+                      print('View Reports tapped');
+                    },
                   ),
-                  _buildTransactionTile(
-                    'Income',
-                    'Salary',
-                    3500.00,
-                    DateTime.now().subtract(const Duration(days: 5)),
+                  _buildActionCard(
+                    '🏦 Import CSV',
+                    Icons.upload_file,
+                    Colors.orange,
+                    () {
+                      print('Import CSV tapped');
+                    },
                   ),
-                  _buildTransactionTile(
-                    'Shopping',
-                    'Uniqlo',
-                    -129.90,
-                    DateTime.now().subtract(const Duration(days: 3)),
+                  _buildActionCard(
+                    '🏷️ Categories',
+                    Icons.category,
+                    Colors.purple,
+                    () {
+                      print('Categories tapped');
+                    },
+                  ),
+                  _buildActionCard(
+                    '📋 Budget',
+                    Icons.account_balance_wallet,
+                    Colors.deepPurple,
+                    () {
+                      print('Budget tapped');
+                    },
                   ),
                 ],
               ),
-            ),
-          ],
+
+              const SizedBox(height: 20),
+
+              // Recent Transactions Title
+              const Text(
+                'Recent Transactions',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+
+              // Recent Transactions List
+              transactions.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 40.0),
+                      child: Center(
+                        child: Text(
+                          '📝 No transactions yet!\nTap + to add your first expense.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
+                        ),
+                      ),
+                    )
+                  : ListView(
+                      // 🎯 FIX 2: ADD SHRINK WRAP (TELLS LIST TO BE SMALL)
+                      shrinkWrap: true,
+                      // 🎯 FIX 3: ADD PHYSICS (STOPS NESTED SCROLLING)
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: transactions.map((transaction) {
+                        return _buildTransactionTile(
+                          transaction['category'],
+                          transaction['description'],
+                          transaction['amount'],
+                          transaction['date'],
+                        );
+                      }).toList(),
+                    ),
+            ],
+          ),
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
