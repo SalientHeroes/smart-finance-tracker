@@ -1,4 +1,3 @@
-
 enum TransactionSource { manual, csv, recurring }
 
 class Transaction {
