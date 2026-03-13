@@ -1,8 +1,22 @@
+import 'package:hive_flutter/hive_flutter.dart';
+
+part 'budget.g.dart';
+
+@HiveType(typeId: 4)
 class Budget {
+  @HiveField(0)
   final int id;
+  
+  @HiveField(1)
   final String category;
+  
+  @HiveField(2)
   final String categoryLabel;
+  
+  @HiveField(3)
   final double limit;
+  
+  @HiveField(4)
   final String? emoji;
 
   Budget({

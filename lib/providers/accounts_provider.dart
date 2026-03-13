@@ -1,25 +1,38 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../models/account.dart';
 
 class AccountsNotifier extends StateNotifier<List<Account>> {
-	AccountsNotifier() : super([]);
-  
-  void addAccount(Account account) {
-	  state = [...state, account];
+  AccountsNotifier() : super([]) {
+    _loadFromHive();
   }
 
-  void editAccount(Account updated) {
-    state = [
-      for (final account in state)
-        if (account.id == updated.id) updated else account,
-    ];
+  static const _boxName = 'accounts';
+
+  Future<void> _loadFromHive() async {
+    final box = await Hive.openBox<Account>(_boxName);
+    state = box.values.toList();
   }
 
-  void deleteAccount(int id) {
-    state = state.where((account) => account.id != id).toList();
+  Future<void> addAccount(Account account) async {
+    final box = await Hive.openBox<Account>(_boxName);
+    await box.put(account.id, account);
+    state = box.values.toList();
+  }
+
+  Future<void> editAccount(Account updated) async {
+    final box = await Hive.openBox<Account>(_boxName);
+    await box.put(updated.id, updated);
+    state = box.values.toList();
+  }
+
+  Future<void> deleteAccount(int id) async {
+    final box = await Hive.openBox<Account>(_boxName);
+    await box.delete(id);
+    state = box.values.toList();
   }
 }
 
 final accountsProvider = StateNotifierProvider<AccountsNotifier, List<Account>>((ref) {
-	return AccountsNotifier();
+  return AccountsNotifier();
 });

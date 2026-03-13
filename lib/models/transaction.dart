@@ -1,12 +1,35 @@
-enum TransactionSource { manual, csv, recurring }
+import 'package:hive_flutter/hive_flutter.dart';
 
+part 'transaction.g.dart';
+
+@HiveType(typeId: 0)
+enum TransactionSource { 
+  @HiveField(0) manual, 
+  @HiveField(1) csv, 
+  @HiveField(2) recurring, 
+  }
+
+@HiveType(typeId: 1)
 class Transaction {
+  @HiveField(0)
   final int id;
+
+  @HiveField(1)
   final String name;
+
+  @HiveField(2)
   final String category;
+  
+  @HiveField(3)
   final double amount;
+
+  @HiveField(4)
   final String date;
+
+  @HiveField(5)
   final TransactionSource source;
+
+  @HiveField(6)
   final String? refId;
 
   Transaction({
