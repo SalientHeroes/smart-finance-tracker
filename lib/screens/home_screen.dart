@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../theme/app_theme.dart';
 import '../providers/accounts_provider.dart';
 import '../providers/transactions_provider.dart';
+import '../widgets/transaction_tile.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -85,8 +86,10 @@ class HomeScreen extends ConsumerWidget {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                itemCount: 0,
-                itemBuilder: (context, index) => const SizedBox(),
+                itemCount: transactions.length,
+                itemBuilder: (context, index) => TransactionTile(
+                  transaction: transactions[index],
+                ),
               ),
             ),
 
@@ -117,6 +120,27 @@ class HomeScreen extends ConsumerWidget {
               ),
           ],
         ),
+      ),
+      
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: AppTheme.cardDark,
+        selectedItemColor: AppTheme.primaryColor,
+        unselectedItemColor: AppTheme.subtextColor,
+        currentIndex: 0,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart_outlined),
+            label: 'Stats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.flag_outlined),
+            label: 'Goals',
+          ),
+        ],
       ),
     );
   }
