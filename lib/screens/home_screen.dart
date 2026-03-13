@@ -4,6 +4,7 @@ import '../theme/app_theme.dart';
 import '../providers/accounts_provider.dart';
 import '../providers/transactions_provider.dart';
 import '../widgets/transaction_tile.dart';
+import 'add_transaction_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -122,6 +123,17 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
       
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppTheme.primaryColor,
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AddTransactionScreen(),
+          ),
+        ),
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppTheme.cardDark,
         selectedItemColor: AppTheme.primaryColor,

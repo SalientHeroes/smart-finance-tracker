@@ -14,7 +14,7 @@ class TransactionTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppTheme.cardDark,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -25,7 +25,7 @@ class TransactionTile extends StatelessWidget {
               style: TextStyle(
                 fontFamily: AppTheme.fontSans,
                 fontSize: 14,
-                color: AppTheme.textColor,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             Text(
