@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../theme/app_theme.dart';
+import '../providers/accounts_provider.dart';
+import '../providers/transactions_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final accounts = ref.watch(accountsProvider);
+    final transactions = ref.watch(transactionsProvider);
+    final totalBalance = accounts.fold(
+      0.0,
+      (sum, account) => sum + account.openingBalance,
+    );
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
@@ -57,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'RM 0.00',
+                      'RM ${totalBalance.toStringAsFixed(2)}',
                       style: TextStyle(
                         fontFamily: AppTheme.fontMono,
                         fontSize: 32,
@@ -82,7 +91,7 @@ class HomeScreen extends ConsumerWidget {
             ),
 
             // ── Empty State ──
-            if (true)
+            if (transactions.isEmpty)
               Expanded(
                 child: Center(
                   child: Column(

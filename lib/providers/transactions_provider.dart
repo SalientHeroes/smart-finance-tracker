@@ -20,6 +20,6 @@ class TransactionsNotifier extends StateNotifier<List<Transaction>> {
   }
 }
 
-final transactionProvider = StateNotifierProvider<TransactionsNotifier, List<Transaction>>((ref) {
+final transactionsProvider = StateNotifierProvider<TransactionsNotifier, List<Transaction>>((ref) {
   return TransactionsNotifier();
 });
