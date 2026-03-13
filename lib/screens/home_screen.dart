@@ -69,6 +69,43 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
             ),
+
+            const SizedBox(height: 24),
+
+            // ── Transaction List ──
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                itemCount: 0,
+                itemBuilder: (context, index) => const SizedBox(),
+              ),
+            ),
+
+            // ── Empty State ──
+            if (true)
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.receipt_long_outlined,
+                        size: 48,
+                        color: AppTheme.subtextColor,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'No transactions yet',
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontSans,
+                          fontSize: 15,
+                          color: AppTheme.subtextColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),
