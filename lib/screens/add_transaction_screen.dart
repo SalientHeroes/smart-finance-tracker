@@ -29,20 +29,20 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.bgDark,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgDark,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         title: Text(
           'ADD TRANSACTION',
           style: TextStyle(
             fontFamily: AppTheme.fontMono,
             fontSize: 14,
-            color: AppTheme.textColor,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.close, color: AppTheme.subtextColor),
+          icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -59,7 +59,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 fontFamily: AppTheme.fontMono,
                 fontSize: 11,
                 letterSpacing: 1.5,
-                color: AppTheme.subtextColor,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 8),
@@ -67,17 +67,17 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               controller: _nameController,
               style: TextStyle(
                 fontFamily: AppTheme.fontSans,
-                color: AppTheme.textColor,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: AppTheme.cardDark,
+                fillColor: Theme.of(context).colorScheme.surface,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
                 ),
                 hintText: 'e.g. Nasi Lemak',
-                hintStyle: TextStyle(color: AppTheme.subtextColor),
+                hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
               ),
             ),
             const SizedBox(height: 20),
@@ -88,7 +88,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 fontFamily: AppTheme.fontMono,
                 fontSize: 11,
                 letterSpacing: 1.5,
-                color: AppTheme.subtextColor,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 8),
@@ -97,20 +97,20 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               keyboardType: TextInputType.number,
               style: TextStyle(
                 fontFamily: AppTheme.fontMono,
-                color: AppTheme.textColor,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: AppTheme.cardDark,
+                fillColor: Theme.of(context).colorScheme.surface,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
                 ),
                 hintText: '0.00',
-                hintStyle: TextStyle(color: AppTheme.subtextColor),
+                hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
                 prefixText: 'RM',
                 prefixStyle: TextStyle(
-                  color: AppTheme.subtextColor,
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                   fontFamily: AppTheme.fontMono,
                 ),
               ),
@@ -123,7 +123,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 fontFamily: AppTheme.fontMono,
                 fontSize: 11,
                 letterSpacing: 1.5,
-                color: AppTheme.subtextColor,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 8),
@@ -131,13 +131,13 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               children: [
                 Expanded(
                   child:GestureDetector(
-                    onTap: () => setState (() => _isExpense = true),
+                    onTap: () => setState(() => _isExpense = true),
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
                         color: _isExpense
                           ? AppTheme.dangerColor
-                          : AppTheme.cardDark,
+                          : Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
@@ -148,7 +148,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                             fontSize: 12,
                             color: _isExpense
                               ? Colors.white
-                              : AppTheme.subtextColor,
+                              : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ),
@@ -158,13 +158,13 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () => setState (() => _isExpense = false),
+                    onTap: () => setState(() => _isExpense = false),
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
                         color: !_isExpense
-                          ? AppTheme.primaryColor
-                          : AppTheme.cardDark,
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
@@ -175,7 +175,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                             fontSize: 12,
                             color: !_isExpense
                               ? Colors.white
-                              : AppTheme.subtextColor,
+                              : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ),
@@ -192,7 +192,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 fontFamily: AppTheme.fontMono,
                 fontSize: 11,
                 letterSpacing: 1.5,
-                color: AppTheme.subtextColor,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 8),
@@ -211,8 +211,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   ),
                   decoration: BoxDecoration(
                     color: _selectedCategory == cat
-                      ? AppTheme.primaryColor
-                      : AppTheme.cardDark,
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -222,7 +222,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                       fontSize: 13,
                       color: _selectedCategory == cat
                         ? Colors.white
-                        : AppTheme.subtextColor,
+                        : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                   ),
                 ),
@@ -237,7 +237,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor,
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
