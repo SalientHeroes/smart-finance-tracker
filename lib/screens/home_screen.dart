@@ -7,6 +7,7 @@ import '../widgets/transaction_tile.dart';
 import 'add_transaction_screen.dart';
 import 'stats_screen.dart';
 import '../providers/nav_provider.dart';
+import 'goals_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -26,16 +27,18 @@ class HomeScreen extends ConsumerWidget {
       body: [
         _buildHome(context, ref, accounts, transactions, totalBalance),
         const StatsScreen(),
-        const Placeholder(),
+        const GoalsScreen(),
       ][currentIndex],
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppTheme.primaryColor,
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const AddTransactionScreen()),
-        ),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      floatingActionButton: currentIndex == 0
+        ? FloatingActionButton(
+            backgroundColor: AppTheme.primaryColor,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddTransactionScreen()),
+            ),
+            child: const Icon(Icons.add, color: Colors.white),
+          )
+        : null,
 
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppTheme.cardDark,
